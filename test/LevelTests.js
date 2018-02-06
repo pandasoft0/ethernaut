@@ -1,6 +1,10 @@
 /*eslint no-undef: "off"*/
 const Ethernaut = artifacts.require('./Ethernaut.sol')
 
+const Telephone = artifacts.require('./levels/Telephone.sol')
+const TelephoneFactory = artifacts.require('./levels/TelephoneFactory.sol')
+const TelephoneAttack = artifacts.require('./attacks/TelephoneAttack.sol')
+
 const DelegationFactory = artifacts.require('./levels/DelegationFactory.sol')
 const Delegation = artifacts.require('./levels/Delegation.sol')
 
@@ -20,28 +24,21 @@ const ElevatorAttack = artifacts.require('./attacks/ElevatorAttack.sol')
 const Elevator = artifacts.require('./levels/Elevator.sol')
 
 const InstanceFactory = artifacts.require('./levels/InstanceFactory.sol')
-const Instance = artifacts.require('./levels/Instance.sol')
+const Instance = artifacts.require('./attacks/Instance.sol')
 
 const FallbackFactory = artifacts.require('./levels/FallbackFactory.sol')
-const Fallback = artifacts.require('./levels/Fallback.sol')
+const Fallback = artifacts.require('./attacks/Fallback.sol')
 
 const FalloutFactory = artifacts.require('./levels/FalloutFactory.sol')
-const Fallout = artifacts.require('./levels/Fallout.sol')
-
-const HiJackFactory = artifacts.require('./levels/HiJackFactory.sol')
-const HiJack = artifacts.require('./levels/HiJack.sol')
-const HiJackSimpleToken = artifacts.require('./levels/HiJackSimpleToken.sol')
+const Fallout = artifacts.require('./attacks/Fallout.sol')
 
 const KingFactory = artifacts.require('./levels/KingFactory.sol')
-const King = artifacts.require('./levels/King.sol')
+const King = artifacts.require('./attacks/King.sol')
 const KingAttack = artifacts.require('./attacks/KingAttack.sol')
 
 import * as utils from './utils/TestUtils'
 import expectThrow from 'zeppelin-solidity/test/helpers/expectThrow'
 import toPromise from 'zeppelin-solidity/test/helpers/toPromise'
-
-let rlp = require('rlp')
-let sha3 = require('sha3')
 
 contract('Ethernaut', function(accounts) {
 
@@ -436,97 +433,6 @@ contract('Ethernaut', function(accounts) {
   });
 
   // ----------------------------------
-  // HiJack
-  // ----------------------------------
-
-  describe('HiJack', function() {
-
-    let level
-
-    before(async function () {
-      level = await HiJackFactory.new()
-      await ethernaut.registerLevel(level.address)
-    })
-
-    it('should allow the player to solve the level', async function () {
-
-      const instance = await utils.createLevelInstance(
-        ethernaut, level.address, player, HiJack,
-        {from: player, value: web3.toWei(1, 'ether')}
-      )
-   
-      // A function to calculate generated addresses.
-      let targetAddress = function(instanceAddress,nonce) {
-          let bufferAddress = Buffer.from(instanceAddress.slice(2),'hex');
-          let data = rlp.encode([bufferAddress,nonce])
-          let d = new sha3.SHA3Hash(256);
-          d.update(data);
-          return '0x' + d.digest('hex').slice(24);
-      }
-      // Init checks
-      let instanceAddress = await instance.address;  
-
-      assert.equal(await instance.address1.call(), targetAddress(instanceAddress,2))
-      assert.equal(await instance.address2.call(), targetAddress(instanceAddress,4))
-      assert.equal(await instance.owner.call(), level.address)
-      console.log('address1:', await instance.address1.call())
-      console.log('address2:', await instance.address2.call())
-
-      // Ensure that players can create a token
-      console.log('creating a new token...')
-      await instance.generateToken("test", 50);
-      // Check the created contract address is as expected
-      let testTokenAddress = targetAddress(instanceAddress,1);
-      let testInstance = await HiJackSimpleToken.at(testTokenAddress);
-      assert.equal(await testInstance.name.call(), "test");
-      assert.equal(await testInstance.owner.call(), player);
-
-      // Factory check (should fail)
-      // NOTE: Factory check makes the level become the king,
-      //       player wins when the factory is not able to do this.
-      console.log('Check complete (should fail)...')
-      let completed = await utils.submitLevelInstance(
-        ethernaut,
-        level.address,
-        instance.address,
-        player
-      )
-      console.log('completed:', completed)
-      assert.equal(completed, false)
-
-      // Attack
-      // We simply need to create a few more tokens and call suicide from one of them. 
-      console.log('Performing attack');
-      // This will be associated with the first target address
-      await instance.generateToken("First Target Contract Token", 500);
-      await instance.generateToken("pointless token", 0);
-      // This will be associated with the second target address
-      await instance.generateToken("Second Target Contract Token", 500);
-
-      // Lets claim the ether from all the target addresses. 
-      let address1 = await HiJackSimpleToken.at(targetAddress(instanceAddress,2));
-      let address2 = await HiJackSimpleToken.at(targetAddress(instanceAddress,4));
-
-      console.log('Suiciding all target addresses');
-      // Suicide them all
-      await address1.destroy();
-      await address2.destroy();
-
-      // Factory check (should pass)
-      console.log('Check complete (should pass)...')
-      completed = await utils.submitLevelInstance(
-        ethernaut,
-        level.address,
-        instance.address,
-        player
-      )
-      console.log('completed:', completed)
-      assert.equal(completed, true)
-
-    });
-
-  });
-  // ----------------------------------
   // King
   // ----------------------------------
 
@@ -609,6 +515,52 @@ contract('Ethernaut', function(accounts) {
       console.log('completed:', completed)
       assert.equal(completed, true)
 
+    });
+
+  });
+
+  // ----------------------------------
+  // Telephone
+  // ----------------------------------
+
+  describe('Telephone', function() {
+
+    let level
+
+    before(async function() {
+      level = await TelephoneFactory.new()
+      await ethernaut.registerLevel(level.address)
+    })
+
+
+    it('should fail if the player did not solve the level', async function() {
+      const instance = await utils.createLevelInstance(ethernaut, level.address, player, Telephone)
+
+      const completed = await utils.submitLevelInstance(
+        ethernaut,
+        level.address,
+        instance.address,
+        player
+      )
+
+      assert.isFalse(completed)
+    });
+
+
+    it('should allow the player to solve the level', async function() {
+      const instance = await utils.createLevelInstance(ethernaut, level.address, player, Telephone)
+
+      const attacker = await TelephoneAttack.new()
+      await attacker.attack(instance.address, player)
+
+      const completed = await utils.submitLevelInstance(
+        ethernaut,
+        level.address,
+        instance.address,
+        player
+      )
+      
+      assert.isTrue(completed)
     });
 
   });
