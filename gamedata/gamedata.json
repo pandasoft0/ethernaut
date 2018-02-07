@@ -1,7 +1,7 @@
 {
   "ethernaut": {
     "deployed_development": [
-      "0xd79b98d23cceeb36769357bbfa2ab23f5b4e5118"
+      "0x1f34366f68d45776fdb4848a55289d121899616d"
     ],
     "deployed_ropsten": [
       "0xc833a73d33071725143d7cf7dfd4f4bba6b5ced2"
@@ -19,7 +19,7 @@
         "deployParams": [],
         "deployFunds": 0,
         "deployed_development": [
-          "0x1f34366f68d45776fdb4848a55289d121899616d"
+          "0xdc3b181d9644cd486b2b0c44be14d55e17061136"
         ],
         "deployed_ropsten": [
           "0xdf51a9e8ce57e7787e4a27dd19880fd7106b9a5c"
@@ -38,7 +38,7 @@
         "deployParams": [],
         "deployFunds": 0,
         "deployed_development": [
-          "0x60870f163dd08dac3dae195929fa3b71d867a250"
+          "0x71e8f7c645bd8769f7edf91a199ed4213e25f0c1"
         ],
         "deployed_ropsten": [
           "0x234094aac85628444a82dae0396c680974260be7"
@@ -57,7 +57,7 @@
         "deployParams": [],
         "deployFunds": 0,
         "deployed_development": [
-          "0xdc3b181d9644cd486b2b0c44be14d55e17061136"
+          "0x091fdf2b7ef4cec6684ce730ca8332aaf5308178"
         ],
         "deployed_ropsten": [
           "0x220beee334f1c1f8078352d88bcc4e6165b792f6"
@@ -65,23 +65,23 @@
         "instanceGas": 350000
       },
       {
-        "name": "Telephone",
+        "name": "Coin Flip",
         "created": "2018-02-06",
-        "difficulty": "1",
-        "description": "telephone.md",
-        "completedDescription": "telephone_complete.md",
-        "levelContract": "TelephoneFactory.sol",
-        "instanceContract": "Telephone.sol",
+        "difficulty": "3",
+        "description": "coinflip.md",
+        "completedDescription": "coinflip_complete.md",
+        "levelContract": "CoinFlipFactory.sol",
+        "instanceContract": "CoinFlip.sol",
         "revealCode": true,
         "deployParams": [],
         "deployFunds": 0,
         "deployed_development": [
-          "0x71e8f7c645bd8769f7edf91a199ed4213e25f0c1"
+          "0x2f0d957c3098900fe6146f59f384e86409996391"
         ],
         "deployed_ropsten": [
           "x"
         ],
-        "instanceGas": 200000
+        "instanceGas": 300000
       },
       {
         "name": "Token",
@@ -95,7 +95,7 @@
         "deployParams": [],
         "deployFunds": 0,
         "deployed_development": [
-          "0x2f0d957c3098900fe6146f59f384e86409996391"
+          "0xa3eea07d065ddb54ca6ac7fd173b59c6fbcb92eb"
         ],
         "deployed_ropsten": [
           "0x6545df87f57d21cb096a0bfcc53a70464d062512"
@@ -114,7 +114,7 @@
         "deployParams": [],
         "deployFunds": 0,
         "deployed_development": [
-          "0x091fdf2b7ef4cec6684ce730ca8332aaf5308178"
+          "0xb6bbf4796a2f377c13abe85895811427fd24909f"
         ],
         "deployed_ropsten": [
           "0x68756ad5e1039e4f3b895cfaa16a3a79a5a73c59"
@@ -133,7 +133,7 @@
         "deployParams": [],
         "deployFunds": 0,
         "deployed_development": [
-          "0xb6bbf4796a2f377c13abe85895811427fd24909f"
+          "0x36d1322d48841f99f1ea0689a5cc55ae898f5004"
         ],
         "deployed_ropsten": [
           "0x24d661beb31b85a7d775272d7841f80e662c283b"
@@ -152,7 +152,7 @@
         "deployParams": [],
         "deployFunds": 1,
         "deployed_development": [
-          "0xa3eea07d065ddb54ca6ac7fd173b59c6fbcb92eb"
+          "0x2c671e83b231c1dfa2ce1ace3d9b0cbad3fa9f52"
         ],
         "deployed_ropsten": [
           "0x32d25a51c4690960f1d18fadfa98111f71de5fa7"
@@ -171,7 +171,7 @@
         "deployParams": [],
         "deployFunds": 1,
         "deployed_development": [
-          "0x2c671e83b231c1dfa2ce1ace3d9b0cbad3fa9f52"
+          "0xd58fc3d2820c424949a5af64e9f1bcc8bafccfc0"
         ],
         "deployed_ropsten": [
           "0xf70706db003e94cfe4b5e27ffd891d5c81b39488"
@@ -190,7 +190,7 @@
         "deployParams": [],
         "deployFunds": 0,
         "deployed_development": [
-          "0x36d1322d48841f99f1ea0689a5cc55ae898f5004"
+          "0xac772223d1fb1e8881e29a4f55d815c8c4bbc43a"
         ],
         "deployed_ropsten": [
           "x"

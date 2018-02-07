@@ -1,10 +1,6 @@
 /*eslint no-undef: "off"*/
 const Ethernaut = artifacts.require('./Ethernaut.sol')
 
-const Telephone = artifacts.require('./levels/Telephone.sol')
-const TelephoneFactory = artifacts.require('./levels/TelephoneFactory.sol')
-const TelephoneAttack = artifacts.require('./attacks/TelephoneAttack.sol')
-
 const DelegationFactory = artifacts.require('./levels/DelegationFactory.sol')
 const Delegation = artifacts.require('./levels/Delegation.sol')
 
@@ -18,6 +14,10 @@ const ReentranceAttack = artifacts.require('./attacks/ReentranceAttack.sol')
 const ForceFactory = artifacts.require('./levels/ForceFactory.sol')
 const ForceAttack = artifacts.require('./attacks/ForceAttack.sol')
 const Force = artifacts.require('./levels/Force.sol')
+
+const CoinFlipFactory = artifacts.require('./levels/CoinFlipFactory.sol')
+const CoinFlip = artifacts.require('./levels/CoinFlip.sol')
+const CoinFlipAttack = artifacts.require('./attacks/CoinFlipAttack.sol')
 
 const ElevatorFactory = artifacts.require('./levels/ElevatorFactory.sol')
 const ElevatorAttack = artifacts.require('./attacks/ElevatorAttack.sol')
@@ -49,7 +49,7 @@ contract('Ethernaut', function(accounts) {
   before(async function() {
     ethernaut = await Ethernaut.new();
   });
-
+  /*
   // ----------------------------------
   // Token
   // ----------------------------------
@@ -518,23 +518,23 @@ contract('Ethernaut', function(accounts) {
     });
 
   });
-
+  */
   // ----------------------------------
-  // Telephone
+  // CoinFlip
   // ----------------------------------
 
-  describe('Telephone', function() {
+  describe('CoinFlip', function() {
 
     let level
 
     before(async function() {
-      level = await TelephoneFactory.new()
+      level = await CoinFlipFactory.new()
       await ethernaut.registerLevel(level.address)
     })
 
 
     it('should fail if the player did not solve the level', async function() {
-      const instance = await utils.createLevelInstance(ethernaut, level.address, player, Telephone)
+      const instance = await utils.createLevelInstance(ethernaut, level.address, player, CoinFlip)
 
       const completed = await utils.submitLevelInstance(
         ethernaut,
@@ -548,10 +548,13 @@ contract('Ethernaut', function(accounts) {
 
 
     it('should allow the player to solve the level', async function() {
-      const instance = await utils.createLevelInstance(ethernaut, level.address, player, Telephone)
+      const instance = await utils.createLevelInstance(ethernaut, level.address, player, CoinFlip)
 
-      const attacker = await TelephoneAttack.new()
-      await attacker.attack(instance.address, player)
+      const attacker = await CoinFlipAttack.new()
+      
+      for (var i = 0; i < 10; i++) {
+        await attacker.attack(instance.address)
+      }
 
       const completed = await utils.submitLevelInstance(
         ethernaut,
@@ -559,7 +562,7 @@ contract('Ethernaut', function(accounts) {
         instance.address,
         player
       )
-      
+
       assert.isTrue(completed)
     });
 
