@@ -9,21 +9,19 @@ export default store => next => action => {
       // Load levels and add a bit of post processing...
       // console.log(`NETWORK NAME:`, constants.ACTIVE_NETWORK.name)
       // console.log(`LEVELS URL:`, `../../levels/levels-${constants.ACTIVE_NETWORK.name}.json`)
-      const network = constants.ACTIVE_NETWORK.name;
       const data = require(`../../gamedata/gamedata.json`)
-      const deployData = require(`../../gamedata/deploy.${network}.json`)
-      const levelsIn = data.levels;
-      // console.log(`LEVELS DATA:`, levelsIn, deployData)
+      const levelsIn = data.ethernaut.levels;
+      // console.log(`LEVELS DATA:`, levelsIn)
       const levelsOut = [];
       for(let i = 0; i < levelsIn.length; i++) {
         const level = levelsIn[i];
-        level.deployedAddress = deployData[level.deployId]
+        level.deployedAddress = level[`deployed_${constants.ACTIVE_NETWORK.name}`][0]
         level.idx = i;
         levelsOut.push(level);
       }
-      action.ethernautAddress = deployData.ethernaut
+      action.ethernautAddress = data.ethernaut[`deployed_${constants.ACTIVE_NETWORK.name}`][0]
       action.levels = levelsOut;
-      // console.log(`LEVELS DATA (out):`, levelsOut, action.ethernautAddress)
+      // console.log(`LEVELS DATA (out):`, levelsOut, data.ethernautAddress)
     } catch(e) {
       window.alert('cannot find levels data')
     }

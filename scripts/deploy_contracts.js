@@ -10,15 +10,13 @@ const prompt = require('prompt')
 const Web3 = require("web3")
 const colors = require('colors')
 const fs = require('fs')
+const gamedata = require(`../gamedata/gamedata.json`)
 const ethutil = require(`../src/utils/ethutil`)
 const constants = require(`../src/constants`)
 const EthernautABI = require('../build/contracts/Ethernaut.json')
 
-const gamedata = require(`../gamedata/gamedata.json`)
-
 let web3;
 let ethernaut;
-let deployData;
 
 const PROMPT_ON_DEVELOP = true
 
@@ -28,25 +26,20 @@ async function exec() {
 
   await initWeb3()
 
-  // Retrieve deployment data for the active network.
-  try {
-    deployData = require(`../gamedata/deploy.${constants.ACTIVE_NETWORK.name}.json`)
-  }
-  catch(err){
-    deployData = {};
-  }
-
   // Determine which contracts need to be deployed.
   let count = 0;
   const deployedKey = `deployed_${constants.ACTIVE_NETWORK.name}`
-  if(needsDeploy(deployData.ethernaut)) {
+  if(needsDeploy(gamedata.ethernaut[deployedKey])) {
     count++
     console.log(colors.red(`(${count}) Will deploy Ethernaut.sol!`))
   }
-  gamedata.levels.map((level, key) => {
-    if(needsDeploy(deployData[level.deployId])) {
+  gamedata.ethernaut.levels.map((level, key) => {
+    if(needsDeploy(level[deployedKey])) {
       count++
+      if(level[deployedKey].length === 1)
         console.log(colors.cyan(`(${count}) Will deploy ${level.levelContract} (${level.name})`))
+      else
+        console.log(colors.yellow(`(${count}) Will UPDATE ${level.levelContract} (${level.name})`))
     }
   })
 
@@ -77,30 +70,30 @@ async function deployContracts() {
     gas: 4500000
   }
   console.log(`deploy params:`, props);
+  const deployedKey = `deployed_${constants.ACTIVE_NETWORK.name}`
 
   // Deploy/retrieve ethernaut contract
   const Ethernaut = await ethutil.getTruffleContract(EthernautABI, {
     from: constants.ADDRESSES[constants.ACTIVE_NETWORK.name]
   })
-  if(needsDeploy(deployData.ethernaut)) {
+  if(needsDeploy(gamedata.ethernaut[deployedKey])) {
     console.log(`Deploying Ethernaut.sol...`);
     ethernaut = await Ethernaut.new(props)
     console.log(colors.yellow(`  Ethernaut: ${ethernaut.address}`));
-    deployData.ethernaut = ethernaut.address;
+    storeDeployedAddress(gamedata.ethernaut, ethernaut.address)
   }
   else {
-    console.log('Using deployed Ethernaut.sol:', deployData.ethernaut);
-    ethernaut = await Ethernaut.at(deployData.ethernaut)
+    console.log('Using deployed Ethernaut.sol:', getDeployedAddress(gamedata.ethernaut));
+    ethernaut = await Ethernaut.at(getDeployedAddress(gamedata.ethernaut))
     // console.log('ethernaut: ', ethernaut);
   }
 
-
   // Sweep levels
-  const promises = gamedata.levels.map(async level => {
+  const promises = gamedata.ethernaut.levels.map(async level => {
     // console.log('level: ', level);
     return new Promise(async resolve => {
-      if(needsDeploy(deployData[level.deployId])) {
-        console.log(`Deploying ${level.levelContract}, deployId: ${level.deployId}...`);
+      if(needsDeploy(level[deployedKey])) {
+        console.log(`Deploying ${level.levelContract}...`);
 
         // Deploy contract
         const LevelABI = require(`../build/contracts/${withoutExtension(level.levelContract)}.json`)
@@ -109,8 +102,7 @@ async function deployContracts() {
         })
         const contract = await Contract.new(...level.deployParams, props)
         console.log(colors.yellow(`  ${level.name}: ${contract.address}`));
-        deployData[level.deployId] = contract.address
-        console.log(colors.gray(`  storing deployed id: ${level.deployId} with address: ${contract.address}`));
+        storeDeployedAddress(level, contract.address)
 
         // Register level in Ethernaut contract
         console.log(`  Registering level in Ethernaut.sol...`)
@@ -122,15 +114,13 @@ async function deployContracts() {
       }
       resolve(level)
     })
-
   })
+  gamedata.ethernaut.levels = await Promise.all(promises)
   
-  // Write new deploy data to disk
-  Promise.all(promises).then(() => {
-    const path = `gamedata/deploy.${constants.ACTIVE_NETWORK.name}.json`
-    console.log(colors.green(`Writing updated game data: ${path}`));
-    fs.writeFileSync(path, JSON.stringify(deployData, null, 2), 'utf8')
-  });
+  // Write new gamedata to disk
+  // console.log(colors.gray('OUTPUT:', JSON.stringify(gamedata, null, 2)));
+  console.log(colors.green('Writing updated game data: gamedata/gamedata.json'));
+  fs.writeFileSync('./gamedata/gamedata.json', JSON.stringify(gamedata, null, 2), 'utf8')
 }
 
 // ----------------------------------
@@ -139,6 +129,23 @@ async function deployContracts() {
 
 function withoutExtension(str) {
   return str.split('.')[0]
+}
+
+function getDeployedAddress(target) {
+  const deployedKey = `deployed_${constants.ACTIVE_NETWORK.name}`
+  return target[deployedKey][0]
+}
+
+function storeDeployedAddress(target, address) {
+  const deployedKey = `deployed_${constants.ACTIVE_NETWORK.name}`
+  let arr = target[deployedKey]
+  if(constants.ACTIVE_NETWORK === constants.NETWORKS.DEVELOPMENT)
+    arr = [address]
+  else {
+    arr.splice(target, 1)
+    arr = [address, ...target[deployedKey]]
+  }
+  target[deployedKey] = arr
 }
 
 function needsDeploy(deployArray) {
@@ -170,14 +177,12 @@ function initWeb3() {
 
 function backupGameData() {
 
-  console.log(colors.magenta(`Backing up files...`));
-
   // Mkdir if not present (added in .gitignore)
-  const dirPath = './gamedata/bkps/'
+  const dirPath = './gamedata/bkps'
   if(!fs.existsSync(dirPath)) fs.mkdirSync(dirPath)
+
   // Build new filename
-  const bkpSrc = `./gamedata/deploy.${constants.ACTIVE_NETWORK.name}.json`;
-  const bkpName = `deploy.${constants.ACTIVE_NETWORK.name}.${new Date().getTime()}.json`
-  fs.createReadStream(bkpSrc)
-    .pipe(fs.createWriteStream(`${dirPath}${bkpName}`));
+  const bkpName = `gamedata-${new Date().getTime()}.json`
+  fs.createReadStream(`./gamedata/gamedata.json`)
+    .pipe(fs.createWriteStream(`./gamedata/bkps/${bkpName}`));
 }
