@@ -225,18 +225,18 @@
       "instanceGas": 1350000
     },
     {
-        "name": "Recovery",
-        "created": "2017-12-15",
-        "difficulty": "6",
-        "description": "recovery.md",
-        "completedDescription": "recovery_complete.md",
-        "levelContract": "RecoveryFactory.sol",
-        "instanceContract": "Recovery.sol",
-        "revealCode": true,
-        "deployParams": [],
-        "deployFunds": 1,
-        "deployId": "16",
-        "instanceGas": 1050000
+      "name": "Locked",
+      "created": "2018-05-19",
+      "difficulty": "6",
+      "description": "locked.md",
+      "completedDescription": "locked_complete.md",
+      "levelContract": "LockedFactory.sol",
+      "instanceContract": "Locked.sol",
+      "revealCode": true,
+      "deployParams": [],
+      "deployFunds": 0,
+      "deployId": "16",
+      "instanceGas": 1500000
     }
   ]
 }
