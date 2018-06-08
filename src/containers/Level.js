@@ -3,6 +3,7 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import CodeComponent from '../components/Code'
 import MarkdownComponent from '../components/Markdown'
+import RandomImage from '../components/RandomImage'
 import * as actions from '../actions'
 import * as constants from '../constants'
 import Difficulty from '../components/Difficulty'
@@ -119,6 +120,8 @@ class Level extends React.Component {
           <CodeComponent target={sourcesFile}/>
         </div>
         }
+
+        <RandomImage/>
 
       </div>
     );
