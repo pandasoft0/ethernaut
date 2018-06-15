@@ -2,7 +2,7 @@
 
 ![ethernaut](./public/imgs/bann.jpeg)
 
-<p>The ethernaut is a Web3/Solidity based wargame inspired in <a href="https://overthewire.org" target="_blank" rel="noopener noreferred">overthewire.org</a> and in the comic <a href="https://en.wikipedia.org/wiki/The_Eternaut" target="_blank" rel="noopener noreferred">El Eternauta</a>, to be played in the Ethereum Virtual Machine. Each level is a smart contract that needs to be 'hacked'.</p>
+<p>The ethernaut is a Web3/Solidity based wargame inspired in <a href="https://overthewire.org" target="_blank" rel="noopener noreferred">overthewire.org</a>, to be played in the Ethereum Virtual Machine. Each level is a smart contract that needs to be 'hacked'.</p>
 
 The game acts both as a tool for those interested in learning ethereum, and as a way to catalogue historical hacks in levels. Levels can be infinite and the game does not require to be played in any particular order.
 
@@ -61,7 +61,7 @@ Let's suppose that we are creating the level "King" (which is already created an
 5. Edit test/LevelTests.js and add a test. In this case, look for the "King" section.
 6. Run truffle test and once all tests pass, register the level in gamedata/gamedata.json. This file is used by the app to display data, connect to contracts, etc. It is also used by the contract deployer script in scripts/deploy_contracts.
 7. The level should now show up in the ui. To start it, set src/constants.js' ACTIVE_NETWORK to DEVELOPMENT and run npm start.
-8. Add a description markdwon file, in this case gamedata/levels/king.md (make sure gamedata.json points to it). This content will now be displayed in the ui for the level.
+8. Add a description markdown file, in this case gamedata/levels/king.md (make sure gamedata.json points to it). This content will now be displayed in the ui for the level.
 9. Verify that the level is playable and winnable.
 10. Add a completed description markdown file, in this case gamedata/levels/king_complete.md (make sure gamedata.json points to it). The level will display this as additional info once the level is solved, usually to include historical information related to the level.
 11. Make a PR request so that we can re-deploy the game with the new level!

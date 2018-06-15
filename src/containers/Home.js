@@ -31,7 +31,7 @@ class Home extends React.Component {
         paddingRight: '40px',
       }}>
 
-        <div className="col-sm-8">
+        <div className="col-sm-12">
 
           {/* TITLE */}
           <h2 className="title">
@@ -42,7 +42,7 @@ class Home extends React.Component {
             </a>
           </h2>
           {/* INFO */}
-          <p>The ethernaut is a Web3/Solidity based wargame inspired on <a href="https://overthewire.org" target="_blank" rel="noopener noreferred">overthewire.org</a> and the <a href="https://en.wikipedia.org/wiki/The_Eternaut" target="_blank" rel="noopener noreferred">El Eternauta</a> comic, played in the Ethereum Virtual Machine. Each level is a smart contract that needs to be 'hacked' in order to advance.</p>
+          <p>The ethernaut is a Web3/Solidity based wargame inspired on <a href="https://overthewire.org" target="_blank" rel="noopener noreferred">overthewire.org</a>, played in the Ethereum Virtual Machine. Each level is a smart contract that needs to be 'hacked' in order to advance.</p>
           <p>Are you interested in smart contract development or security? Does securing the world’s blockchain infrastructure sound exciting to you? <a href="https://zeppelin.solutions/jobs" target="_blank" rel="noopener noreferred"><strong style={{ color: '#eb5424', fontWeight: 600 }}>We are hiring!</strong></a></p>
           <button
             style={{marginTop: '10px'}}
@@ -51,10 +51,6 @@ class Home extends React.Component {
           >
             Play now! 
           </button>
-        </div>
-
-        <div className="col-sm-4">
-          <img style={{maxWidth: '100%', padding: '40px 0 20px 0'}} src='../../imgs/ver.jpg' alt='eternauta'/>
         </div>
       </div>
     )

@@ -223,6 +223,48 @@
       "deployFunds": 0,
       "deployId": "15",
       "instanceGas": 1350000
+    },
+    {
+      "name": "Preservation",
+      "created": "2018-05-27",
+      "difficulty": "8",
+      "description": "preservation.md",
+      "completedDescription": "preservation_complete.md",
+      "levelContract": "PreservationFactory.sol",
+      "instanceContract": "Preservation.sol",
+      "revealCode": true,
+      "deployParams": [],
+      "deployFunds": 0,
+      "deployId": "16",
+      "instanceGas": 1500000
+    },
+    {
+      "name": "Locked",
+      "created": "2018-05-19",
+      "difficulty": "6",
+      "description": "locked.md",
+      "completedDescription": "locked_complete.md",
+      "levelContract": "LockedFactory.sol",
+      "instanceContract": "Locked.sol",
+      "revealCode": true,
+      "deployParams": [],
+      "deployFunds": 0,
+      "deployId": "17",
+      "instanceGas": 1500000
+    },
+    {
+        "name": "Recovery",
+        "created": "2018-05-20",
+        "difficulty": "6",
+        "description": "recovery.md",
+        "completedDescription": "recovery_complete.md",
+        "levelContract": "RecoveryFactory.sol",
+        "instanceContract": "Recovery.sol",
+        "revealCode": true,
+        "deployParams": [],
+        "deployFunds": 1,
+        "deployId": "18",
+        "instanceGas": 1050000
     }
   ]
 }
