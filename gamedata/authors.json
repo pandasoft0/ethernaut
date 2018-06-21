@@ -1,0 +1,29 @@
+{
+  "authors": {
+    "ajsantander": {
+      "name": "Alejandro Santander",
+      "email": "palebluedot@gmail.com",
+      "website": "https://github.com/ajsantander"
+    },
+    "martriay": {
+      "name": "Martin Triay",
+      "email": "martriay@gmail.com",
+      "website": "https://github.com/martriay"
+    },
+    "AgeManning": {
+      "name": "Adrian Manning",
+      "email": "age@agemanning.com",
+      "website": "https://github.com/AgeManning"
+    },
+    "syncikin": {
+      "name": null,
+      "email": null,
+      "website": null
+    },
+    "0age": {
+      "name": null,
+      "email": null,
+      "website": null
+    }
+  }
+}
