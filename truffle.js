@@ -28,11 +28,5 @@ module.exports = {
       from: constants.ADDRESSES[constants.NETWORKS.LOCAL.name]
     }
 
-  },
-  solc: {
-    optimizer: {
-      enabled: true,
-      runs: 200
-    }
   }
 };
