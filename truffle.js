@@ -19,20 +19,14 @@ module.exports = {
       from: constants.ADDRESSES[constants.NETWORKS.ROPSTEN.name]
     },
 
-    local: {
-      host: constants.NETWORKS.LOCAL.url,
-      port: constants.NETWORKS.LOCAL.port,
-      network_id: constants.NETWORKS.LOCAL.id,
-      gas: 3000000,
-      gasPrice: 100000000000,
-      from: constants.ADDRESSES[constants.NETWORKS.LOCAL.name]
-    }
+    // development: {
+    //   host: constants.NETWORKS.DEVELOPMENT.url,
+    //   port: constants.NETWORKS.DEVELOPMENT.port,
+    //   network_id: constants.NETWORKS.DEVELOPMENT.id,
+    //   gas: 3000000,
+    //   gasPrice: 100000000000,
+    //   from: constants.ADDRESSES[constants.NETWORKS.DEVELOPMENT.name]
+    // }
 
-  },
-  solc: {
-    optimizer: {
-      enabled: true,
-      runs: 200
-    }
   }
 };

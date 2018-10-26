@@ -26,7 +26,9 @@ import 'zeppelin-solidity/contracts/token/ERC20/StandardToken.sol';
   modifier lockTokens() {
     if (msg.sender == player) {
       require(now > timeLock);
-      _;
+      if (now < timeLock) {
+        _;
+      }
     } else {
      _;
     }

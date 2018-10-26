@@ -27,18 +27,13 @@ class Author extends React.Component {
     this.setState({
       name: authorData.name,
       email: authorData.email,
-      website: authorData.website,
-      donate: authorData.donate
+      website: authorData.website
     });
   }
 
-  donate(address) {
-    console.log(`address: ${address}`);
-  }
-
   render() {
-    const { name, email, website, donate } = this.state;
-    const nodata = !name && !email && !website && !donate;
+    const { name, email, website } = this.state;
+    const nodata = !name && !email && !website;
     return (
       <div>
         <div style={{marginTop: '20px', marginBotton: '20px'}}>
@@ -59,10 +54,6 @@ class Author extends React.Component {
 
           {!nodata && website && 
             <span><br/><strong><a href={website} target='_blank'>{website}</a></strong></span>
-          }
-
-          {!nodata && donate && 
-              <span><br/>Did this level teach you anything useful? Donate to the level author (on mainnet): <strong>{donate}</strong></span>
           }
 
         </div>

@@ -6,8 +6,8 @@ export const DEBUG_REDUX = DEBUG
 // Networks
 export const NETWORKS = {
   UNDEFINED: undefined,
-  LOCAL: {
-    name: 'local',
+  DEVELOPMENT: {
+    name: 'development',
     id: '*',
     url: 'http://localhost',
     port: 8545
@@ -20,16 +20,13 @@ export const NETWORKS = {
   }
 }
 
-// Web3
-export const Web3 = require("web3")
-
 // Misc
 export const CLEAR_CONSOLE = !DEBUG
 export const GOOGLE_ANALYTICS_ID = 'UA-85043059-4'
 
 // Owner addresses
 export const ADDRESSES = {
-  [NETWORKS.LOCAL.name]: undefined,
+  [NETWORKS.DEVELOPMENT.name]: undefined,
   [NETWORKS.ROPSTEN.name]: '0x1663fcb2f6566723a4c429f8ed34352726680f9a'
 }
 
@@ -52,6 +49,6 @@ export const CUSTOM_LOGGING = true                              /* TRUE on produ
 export const SHOW_ALL_COMPLETE_DESCRIPTIONS = false             /* FALSE on production */
 export const SHOW_VERSION = true                                /* TRUE on production */
 export const ACTIVE_NETWORK = NETWORKS.ROPSTEN
-// export const ACTIVE_NETWORK = NETWORKS.LOCAL
+// export const ACTIVE_NETWORK = NETWORKS.DEVELOPMENT
 // -----------------------------------------------------------------------------------------
 // -----------------------------------------------------------------------------------------
