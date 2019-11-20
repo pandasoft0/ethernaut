@@ -2,7 +2,7 @@ export function getBalance(web3, address) {
   return new Promise(function(resolve, reject) {
     web3.eth.getBalance(address, function(error, result) {
       if(error) reject(error)
-      else resolve(web3.utils.fromWei(result.toString(), 'ether'))
+      else resolve(web3.fromWei(result.toNumber(), 'ether'))
     })
   })
 }
@@ -34,8 +34,7 @@ export async function createLevelInstance(ethernaut, levelAddress, player, level
     const tx = await ethernaut.createLevelInstance(levelAddress, data);
     if(tx.logs.length === 0) reject()
     else {
-      const events = tx.logs.filter(e => e.event === "LevelInstanceCreatedLog");
-      const instanceAddress = events[0].args.instance;
+      const instanceAddress = tx.logs[0].args.instance;
       const instance = await levelInstanceClass.at(instanceAddress);
       resolve(instance);
     }
@@ -58,4 +57,3 @@ export async function submitLevelInstance(ethernaut, levelAddress, instanceAddre
     }
   });
 }
-

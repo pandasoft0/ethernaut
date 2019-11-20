@@ -1,8 +1,8 @@
-pragma solidity ^0.5.0;
+pragma solidity ^0.4.24;
 
 contract MagicNumBadSolver {
     
   function whatIsTheMeaningOfLife() public pure returns (bytes32) {
-    return bytes4(int32(42));
+    return 42;
   }
 }

