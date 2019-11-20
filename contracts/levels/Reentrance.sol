@@ -1,4 +1,4 @@
-pragma solidity ^0.5.0;
+pragma solidity ^0.4.18;
 
 import 'openzeppelin-solidity/contracts/math/SafeMath.sol';
 
@@ -17,13 +17,12 @@ contract Reentrance {
 
   function withdraw(uint _amount) public {
     if(balances[msg.sender] >= _amount) {
-      (bool result, bytes memory data) = msg.sender.call.value(_amount)("");
-      if(result) {
+      if(msg.sender.call.value(_amount)()) {
         _amount;
       }
       balances[msg.sender] -= _amount;
     }
   }
 
-  function() external payable {}
+  function() public payable {}
 }

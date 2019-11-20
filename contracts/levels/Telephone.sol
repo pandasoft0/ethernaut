@@ -1,10 +1,10 @@
-pragma solidity ^0.5.0;
+pragma solidity ^0.4.18;
 
 contract Telephone {
 
   address public owner;
 
-  constructor() public {
+  function Telephone() public {
     owner = msg.sender;
   }
 

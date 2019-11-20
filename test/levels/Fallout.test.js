@@ -2,8 +2,10 @@ const FalloutFactory = artifacts.require('./levels/FalloutFactory.sol')
 const Fallout = artifacts.require('./attacks/Fallout.sol')
 
 const Ethernaut = artifacts.require('./Ethernaut.sol')
-const { BN, constants, expectEvent, expectRevert } = require('openzeppelin-test-helpers')
+
 import * as utils from '../utils/TestUtils'
+import expectThrow from 'zeppelin-solidity/test/helpers/expectThrow'
+import toPromise from 'zeppelin-solidity/test/helpers/toPromise'
 
 contract('Fallout', function(accounts) {
 
@@ -12,11 +14,10 @@ contract('Fallout', function(accounts) {
   let owner = accounts[1]
   let player = accounts[0]
 
-  beforeEach(async function() {
+  before(async function() {
     ethernaut = await Ethernaut.new();
     level = await FalloutFactory.new()
     await ethernaut.registerLevel(level.address)
-    console.log(ethernaut.address, level.address)
   });
 
   it('should allow the player to solve the level', async function() {
@@ -26,7 +27,7 @@ contract('Fallout', function(accounts) {
       {from: player}
     )
 
-    assert.equal(await instance.owner(), 0x0)
+    assert.equal(await instance.owner(), level.address)
 
     await instance.Fal1out()
     assert.equal(await instance.owner(), player)

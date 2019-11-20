@@ -1,4 +1,4 @@
-pragma solidity ^0.5.0;
+pragma solidity ^0.4.18;
 
 import './base/Level.sol';
 import './Reentrance.sol';
@@ -11,16 +11,16 @@ contract ReentranceFactory is Level {
     _player;
     require(msg.value >= insertCoin);
     Reentrance instance = new Reentrance();
-    require(address(this).balance >= insertCoin);
-    address(instance).transfer(insertCoin);
-    return address(instance);
+    require(this.balance >= insertCoin);
+    instance.transfer(insertCoin);
+    return instance;
   }
 
-  function validateInstance(address payable _instance, address _player) public returns (bool) {
+  function validateInstance(address _instance, address _player) public returns (bool) {
     _player;
     Reentrance instance = Reentrance(_instance);
-    return address(instance).balance == 0;
+    return instance.balance == 0;
   }
 
-  function() external payable {}
+  function() public payable {}
 }

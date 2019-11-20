@@ -1,4 +1,4 @@
-pragma solidity ^0.5.0;
+pragma solidity ^0.4.18;
 
 import './base/Level.sol';
 import './Denial.sol';
@@ -11,20 +11,19 @@ contract DenialFactory is Level {
     _player;
     require(msg.value >= initialDeposit);
     Denial instance = new Denial();
-    (bool result, bytes memory data) = address(instance).call.value(msg.value)("");
-    require(result);
-    return address(instance);
+    require(instance.call.value(msg.value)());
+    return instance;
   }
 
-  function validateInstance(address payable _instance, address _player) public returns (bool) {
+  function validateInstance(address _instance, address _player) public returns (bool) {
     _player;
     Denial instance = Denial(_instance);
     if (address(instance).balance <= 100 wei) { // cheating otherwise
         return false;
     }
     // fix the gas limit for this call
-    (bool result, bytes memory data) = address(instance).call.gas(500000)(abi.encodeWithSignature("withdraw()")); // Must revert
-    return !result;
+    return
+        !instance.call.gas(500000)(bytes4(keccak256("withdraw()"))); // Must revert
   }
 
   function() external payable {}

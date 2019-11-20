@@ -1,8 +1,8 @@
-pragma solidity ^0.5.0;
+pragma solidity ^0.4.18;
 
 
 interface Building {
-  function isLastFloor(uint) external returns (bool);
+  function isLastFloor(uint) view public returns (bool);
 }
 
 

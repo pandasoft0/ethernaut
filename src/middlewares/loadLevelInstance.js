@@ -29,9 +29,9 @@ export default store => next => action => {
 
     // const estimate = await state.contracts.ethernaut.getLevelInstance.estimateGas(action.level.deployedAddress)
     const estimate = parseInt(action.level.instanceGas, 10) || 2000000
-    const deployFunds = state.network.web3.utils.toWei(parseInt(action.level.deployFunds, 10).toString(), 'ether')
+    const deployFunds = state.network.web3.toWei(parseInt(action.level.deployFunds, 10), 'ether')
     state.contracts.ethernaut.createLevelInstance(action.level.deployedAddress, {
-      gas: estimate.toString(),
+      gas: estimate,
       gasPrice: 2 * state.network.gasPrice,
       from: state.player.address,
       value: deployFunds

@@ -1,10 +1,10 @@
-pragma solidity ^0.5.0;
+pragma solidity ^0.4.18;
 
 contract Vault {
   bool public locked;
   bytes32 private password;
 
-  constructor(bytes32 _password) public {
+  function Vault(bytes32 _password) public {
     locked = true;
     password = _password;
   }

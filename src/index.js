@@ -89,12 +89,13 @@ window.addEventListener('load', async() => {
 });
 
 function checkWrongNetwork(id) {
+
   let onWrongNetwork = false
   if(constants.ACTIVE_NETWORK.id === constants.NETWORKS.LOCAL.id) {
     onWrongNetwork = parseInt(id, 10) < 1000
   }
   else {
-    onWrongNetwork = parseInt(constants.ACTIVE_NETWORK.id) !== parseInt(id)
+    onWrongNetwork = constants.ACTIVE_NETWORK.id !== id
   }
 
   if(onWrongNetwork) {
