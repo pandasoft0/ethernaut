@@ -15,9 +15,6 @@ class Header extends React.Component {
         backgroundColor: 'red',
         zIndex: 10000
       }}>
-        <div style={{ marginLeft: '25px', lineHeight: '1.4', color: 'darkred', fontWeight: 'bold' }}>
-          Ethernaut is not working properly due to recent breaking changes on Metamask. We are working to get the site updated to fix this. Please follow <a target="_blank" href="https://github.com/OpenZeppelin/ethernaut/issues/170">this issue</a> for news. We apologize for the inconvenience!
-        </div>
         <div>
 
           {/* VERSIONS */}
@@ -55,9 +52,6 @@ class Header extends React.Component {
               </li>
               <li className={currentPath === constants.PATH_HELP ? 'active' : ''}>
                 <Link to={constants.PATH_HELP} style={{fontSize: '16px'}}>Help</Link>
-              </li>
-              <li className="new">
-                <a href="https://solidity-05.ethernaut.openzeppelin.com" style={{fontSize: '16px'}}>Try out the Solidity 0.5 version!</a>
               </li>
             </ul>
 
