@@ -4,9 +4,10 @@ const ForceAttack = artifacts.require('./attacks/ForceAttack.sol')
 const Force = artifacts.require('./levels/Force.sol')
 
 const Ethernaut = artifacts.require('./Ethernaut.sol')
-const { BN, constants, expectEvent, expectRevert } = require('openzeppelin-test-helpers')
-import * as utils from '../utils/TestUtils'
 
+import * as utils from '../utils/TestUtils'
+import expectThrow from 'zeppelin-solidity/test/helpers/expectThrow'
+import toPromise from 'zeppelin-solidity/test/helpers/toPromise'
 
 contract('Force', function(accounts) {
 
@@ -31,11 +32,11 @@ contract('Force', function(accounts) {
     assert.equal(balance, 0)
 
     // Sending funds should not work
-    await expectRevert.unspecified(
-      (web3.eth.sendTransaction)({
+    await expectThrow(
+      toPromise(web3.eth.sendTransaction)({
         from: player,
         to: instance.address,
-        value: web3.utils.toWei('0.01', 'ether')
+        value: web3.toWei(0.01, 'ether')
       }) 
     )
       
@@ -46,7 +47,7 @@ contract('Force', function(accounts) {
     // Attack
     const attacker = await ForceAttack.new({
       from: player,
-      value: web3.utils.toWei('0.01', 'ether')
+      value: web3.toWei(0.01, 'ether')
     })
     await attacker.attack(instance.address)
 

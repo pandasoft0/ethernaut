@@ -3,9 +3,10 @@ const ShopAttack = artifacts.require('./attacks/ShopAttack.sol')
 const Shop = artifacts.require('./levels/Shop.sol')
 
 const Ethernaut = artifacts.require('./Ethernaut.sol')
-const { BN, constants, expectEvent, expectRevert } = require('openzeppelin-test-helpers')
-import * as utils from '../utils/TestUtils'
 
+import * as utils from '../utils/TestUtils'
+import expectThrow from 'zeppelin-solidity/test/helpers/expectThrow'
+import toPromise from 'zeppelin-solidity/test/helpers/toPromise'
 
 contract('Shop', function(accounts) {
 

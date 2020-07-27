@@ -6,7 +6,7 @@ var InterpolateHtmlPlugin = require('react-dev-utils/InterpolateHtmlPlugin');
 var WatchMissingNodeModulesPlugin = require('react-dev-utils/WatchMissingNodeModulesPlugin');
 var getClientEnvironment = require('./env');
 var paths = require('./paths');
-var path = require('path');
+
 
 
 // Webpack uses `publicPath` to determine where the app is being served from.
@@ -124,10 +124,7 @@ module.exports = {
       // Process JS with Babel.
       {
         test: /\.(js|jsx)$/,
-        include: [
-          paths.appSrc,
-          path.join(paths.appNodeModules, '@truffle/contract/lib')
-        ],
+        include: paths.appSrc,
         loader: 'babel',
         query: {
 
@@ -240,7 +237,6 @@ module.exports = {
   node: {
     fs: 'empty',
     net: 'empty',
-    tls: 'empty',
-    child_process: 'empty'
+    tls: 'empty'
   }
 };
