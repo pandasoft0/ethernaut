@@ -1,15 +1,21 @@
 # Dependencies
 node_modules/
 
+# Build
+build/
+build_webpack/
+artifacts/
+cache/
+
+# Personal
+.todo
+scripts/testrpc_pid
+.idea/
+.DS_Store
+gamedata/deploy.development.json
+
 # Private stuff
-client/.env
-contracts/.env
+.env
 
-# Contracts
-contracts/build/
-contracts/cache/
-contracts/node_modules/
-
-# Client
-client/build/
-client/node_modules/
+# Misc
+.tern-port
